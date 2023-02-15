@@ -1,0 +1,52 @@
+---
+- name: Install Git, Java 11, and Tomcat on Amazon Linux
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - name: Install Git
+      yum:
+        name: git
+        state: present
+    - name: Install Java 11
+      yum:
+        name: java-11-amazon-corretto
+        state: present
+    - name: Install Tomcat
+      yum:
+        name: tomcat
+        state: present
+    - name: Install Tomcat
+      yum:
+        name:
+          - tomcat-webapps
+          - tomcat-admin-webapps
+        state: present
+    - name: Insert a line in a file and if create the file if does not exist
+      become: yes
+      lineinfile:
+        path: /usr/share/tomcat/conf/tomcat.conf
+        line: \"JAVA_OPTS="-Djava.library.path=<$II_SYSTEM>/ingres/lib:<$II_SYSTEM>/ingres/mainwin/mw/lib-amd64_linux:<$II_SYSTEM>/ingres/mainwin/mw/lib-amd64_linux_optimized\""
+        state: present
+        create: yes
+        backup: yes
+    - name: start tomcat
+      systemd:
+        name: tomcat
+        state: started
+        enabled: yes
+    - name: Create Tomcat admin user
+      ansible.builtin.blockinfile:
+        path: /usr/share/tomcat/conf/tomcat-users.xml
+        marker: <!-- {mark} ANSIBLE MANAGED BLOCK -->
+        insertafter: <tomcat-users>
+        block: >
+          <role rolename="admin-gui" />
+
+          <user username="admin" password="SECRET_PASSWORD" roles="manager-gui,admin-gui" />
+    - name: start tomcat
+      systemd:
+        name: tomcat
+        state: restarted
+        enabled: yes
+
