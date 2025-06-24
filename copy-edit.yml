@@ -4,7 +4,7 @@
   become: yes  # Enable sudo privileges
   
   vars:
-    source_file: "C:\Users\Admin\OneDrive - Beinex Solutions\Documents\production.ini.txt"  # Local file path with forward slashes
+    source_file: "files/production.ini.txt"  # Local file path with forward slashes
     dest_file: "/etc/production.ini"  # Remote file path
     owner: "root"                     # File owner
     group: "root"                     # File group
