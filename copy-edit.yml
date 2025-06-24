@@ -4,11 +4,11 @@
   become: yes  # Enable sudo privileges
   
   vars:
-    source_file: "C:\Users\Admin\Documents\production.ini.txt"  # Local file path
+    source_file: "C:/Users/Admin/Documents/production.ini.txt"  # Local file path with forward slashes
     dest_file: "/etc/production.ini"  # Remote file path
-    owner: "root"                          # File owner
-    group: "root"                         # File group
-    mode: "0644"                           # File permissions
+    owner: "root"                     # File owner
+    group: "root"                     # File group
+    mode: "0644"                      # File permissions
 
   tasks:
     - name: Copy file to remote server
