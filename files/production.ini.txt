@@ -1,0 +1,48 @@
+ [database]
+DATABASE_USER: <db-username>			#Add db username that you created
+DATABASE_PASSWORD: <db-password>		#Add db password that you created
+DATABASE_HOST: <ip-of-db-server>		#Add db hostname that you created
+DATABASE_PORT: 3306
+DATABASE_NAME: auraa_net_staging
+TESTSUITE_DATABASE_NAME: 'staging_master_test'
+
+[general]
+ALLOWED_HOSTS: ['<url>.aurex.ai', '<db-generate-value>.aurex.ai']		#Add the URL 
+PORTAL_URL: https://<url>.aurex.ai						#Add the URL 
+PARENT_DOMAIN_NAME: <url>.aurex.ai						#Add the URL 
+SESSION_COOKIE_DOMAIN: .aurex.ai
+PORTAL_LOGIN_URL: https://<url>.aurex.ai					#Add the URL  
+MASTER_DB_NAMES: ['id', 'www', 'auraa', 'master','staging', 'auraa_net_staging', 'auraa-prod','auraa_prod', 'auraaprod', '<url>'] #Add URL without aurex.ai
+IS_ON_PREMISE: False
+IS_AWS: False
+IS_OFFICE: False
+DOCUMENT_UPLOAD_PATH: others/
+OFFICE_DOCUMENT_UPLOAD_PATH: office/
+CLIENT_AUDIT_ID:False
+
+[email]
+
+EMAIL_HOST_PREFIX: http://
+
+
+[cookies]
+SESSION_COOKIE_NAME: sso-sessionid
+LOCALIZATION_TIME_ZONE = Asia/Dubai
+[druid]
+DRUID_URL: http://20.0.0.0/
+DRUID_USERNAME = admin
+DRUID_PASSWORD = Beinex@123
+[document]
+DOC_FILE = doc.html
+DOC_FOOTER = ''
+DOC_LOGO = None
+
+[client]
+CLIENT_NAME: <CLIENTNAME>				#Add client name in upper case
+CLIENT_SAL_ASSESSMENT_ID: True
+
+[settings]
+SESSION_COOKIE_SECURE=true
+
+[jwt]
+JWT_ACCESS_TOKEN_LIFETIME = 30
