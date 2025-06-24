@@ -1,0 +1,54 @@
+---
+- name: Copy and edit file on remote server
+  hosts: all
+  become: yes  # Enable sudo privileges
+  
+  vars:
+    source_file: ""C:\Users\Admin\Documents\production.ini.txt""  # Local file path
+    dest_file: "/etc/production.ini"  # Remote file path
+    owner: "root"                          # File owner
+    group: "root"                         # File group
+    mode: "0644"                           # File permissions
+
+  tasks:
+    - name: Copy file to remote server
+      copy:
+        src: "{{ source_file }}"
+        dest: "{{ dest_file }}"
+        owner: "{{ owner }}"
+        group: "{{ group }}"
+        mode: "{{ mode }}"
+        backup: yes  # Create backup before modifications
+      register: copy_result
+
+    - name: Ensure file exists
+      file:
+        path: "{{ dest_file }}"
+        state: touch
+        owner: "{{ owner }}"
+        group: "{{ group }}"
+        mode: "{{ mode }}"
+      when: copy_result.failed  # Create file if copy fails
+
+    - name: Edit file content - replace line
+      lineinfile:
+        path: "{{ dest_file }}"
+        regexp: '^#.*<url>.*$'  # Regular expression to match line
+        line: "<url> = ansible"  # Replacement line
+        state: present
+        backup: yes
+
+    - name: Edit file content - insert new line
+      lineinfile:
+        path: "{{ dest_file }}"
+        line: "# New configuration line added by Ansible"
+        insertafter: EOF  # Add at end of file
+        state: present
+        backup: yes
+
+    - name: Verify file permissions
+      file:
+        path: "{{ dest_file }}"
+        owner: "{{ owner }}"
+        group: "{{ group }}"
+        mode: "{{ mode }}"
